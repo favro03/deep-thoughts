@@ -30,7 +30,7 @@ const ThoughtList = ({ thoughts, title }) => {
                   {thought.reactionCount ? 'see' : 'start'} the discussion!
                 </p>
               </Link>
-</div>
+            </div>
           </div>
         ))}
     </div>
