@@ -1,17 +1,14 @@
 import React from 'react';
+import { Redirect, useParams } from 'react-router-dom';
 
+import ThoughtForm from '../components/ThoughtForm';
 import ThoughtList from '../components/ThoughtList';
 import FriendList from '../components/FriendList';
 
-import { QUERY_USER, QUERY_ME } from '../utils/queries';
-
-import Auth from '../utils/auth';
-import { Redirect, useParams } from 'react-router-dom';
-
-import { ADD_FRIEND } from '../utils/mutations';
 import { useQuery, useMutation } from '@apollo/client';
-
-import ThoughtForm from '../components/ThoughtForm';
+import { QUERY_USER, QUERY_ME } from '../utils/queries';
+import { ADD_FRIEND } from '../utils/mutations';
+import Auth from '../utils/auth';
 
 const Profile = (props) => {
   const { username: userParam } = useParams();
@@ -21,10 +18,9 @@ const Profile = (props) => {
     variables: { username: userParam },
   });
 
- 
-
   const user = data?.me || data?.user || {};
-  // redirect to personal profile page if username is the logged-in user's
+
+  // redirect to personal profile page if username is yours
   if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
     return <Redirect to="/profile" />;
   }
@@ -32,13 +28,16 @@ const Profile = (props) => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
   if (!user?.username) {
     return (
       <h4>
-        You need to be logged in to see this page. Use the navigation links above to sign up or log in!
+        You need to be logged in to see this. Use the navigation links above to
+        sign up or log in!
       </h4>
     );
   }
+
   const handleClick = async () => {
     try {
       await addFriend({
@@ -47,19 +46,20 @@ const Profile = (props) => {
     } catch (e) {
       console.error(e);
     }
-  };  
+  };
+
   return (
     <div>
       <div className="flex-row mb-3">
-      <h2 className="bg-dark text-secondary p-3 display-inline-block">
-        Viewing {userParam ? `${user.username}'s` : 'your'} profile.
-      </h2>
-      {userParam && (
-         <button className='btn ml-auto' onClick={handleClick}>
-         Add Friend
-       </button>
-      )}
-     
+        <h2 className="bg-dark text-secondary p-3 display-inline-block">
+          Viewing {userParam ? `${user.username}'s` : 'your'} profile.
+        </h2>
+
+        {userParam && (
+          <button className="btn ml-auto" onClick={handleClick}>
+            Add Friend
+          </button>
+        )}
       </div>
 
       <div className="flex-row justify-space-between mb-3">
@@ -78,7 +78,7 @@ const Profile = (props) => {
           />
         </div>
       </div>
-      <div className='mb-3'>{!userParam && <ThoughtForm />}</div>
+      <div className="mb-3">{!userParam && <ThoughtForm />}</div>
     </div>
   );
 };
