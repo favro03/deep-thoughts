@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "bcrypt": "^5.0.1",
     "jsonwebtoken": "^8.5.1"
   },
   "name": "deep-thoughts",
