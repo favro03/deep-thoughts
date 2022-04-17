@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "@apollo/client": "^3.5.10"
+    "@apollo/client": "^3.5.10",
+    "jsonwebtoken": "^8.5.1"
   },
   "name": "deep-thoughts",
   "version": "1.0.0",
